@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admiral Yacht Insurance — Sail With Confidence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #d4cdbf;
+  background: #070d1a;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+
+/* ═══════════════════════════════════════════════════
+   PALETTE
+   ═══════════════════════════════════════════════════ */
+:root {
+  --navy:       #070d1a;
+  --navy2:      #0c1a32;
+  --navy3:      #10243f;
+  --gold:       #c9a84c;
+  --gold-light: #e2c97e;
+  --gold-dark:  #a08030;
+  --text:       #d4cdbf;
+  --text-dim:   #7e8da6;
+  --glass:      rgba(12, 26, 50, 0.55);
+  --glass-border: rgba(201, 168, 76, 0.12);
+}
+
+/* ═══════════════════════════════════════════════════
+   NOISE TEXTURE OVERLAY
+   ═══════════════════════════════════════════════════ */
+body::after {
+  content: '';
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 9999; pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* ═══════════════════════════════════════════════════
+   NAV
+   ═══════════════════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 3rem;
+  background: rgba(7, 13, 26, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(201,168,76,0.08);
+  transition: background .4s, border-color .4s, padding .3s;
+}
+nav.scrolled {
+  background: rgba(7, 13, 26, 0.92);
+  border-bottom-color: rgba(201,168,76,0.2);
+  padding-top: .8rem; padding-bottom: .8rem;
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; font-weight: 700; letter-spacing: 1.5px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.logo span {
+  color: var(--text);
+  font-weight: 400; font-style: italic;
+  text-transform: none; letter-spacing: 0;
+  margin-left: .35rem;
+  font-size: 0.85em;
+}
+nav ul { list-style: none; display: flex; gap: 2.5rem; align-items: center; }
+nav ul li a {
+  font-size: .85rem; font-weight: 400; letter-spacing: .6px;
+  text-transform: uppercase;
+  transition: color .3s;
+  position: relative;
+}
+nav ul li a::after {
+  content: '';
+  position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width .3s;
+}
+nav ul li a:hover { color: var(--gold); }
+nav ul li a:hover::after { width: 100%; }
+.nav-cta {
+  background: transparent;
+  color: var(--gold); font-weight: 600;
+  padding: .55rem 1.6rem; border-radius: 2px;
+  font-size: .82rem;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  border: 1px solid var(--gold);
+  transition: background .3s, color .3s;
+}
+.nav-cta:hover {
+  background: var(--gold);
+  color: var(--navy);
+}
+
+/* ═══════════════════════════════════════════════════
+   OCEAN CANVAS (below hero only)
+   ═══════════════════════════════════════════════════ */
+#ocean-canvas {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════
+   SECTIONS COMMON
+   ═══════════════════════════════════════════════════ */
+section { position: relative; z-index: 1; }
+.container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Ornamental divider ────────────────────────── */
+.divider {
+  display: flex; align-items: center; justify-content: center;
+  gap: 1rem; padding: 1.5rem 0;
+}
+.divider::before, .divider::after {
+  content: '';
+  width: 80px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: .3;
+}
+.divider svg { width: 16px; height: 16px; fill: var(--gold); opacity: .4; }
+
+/* ── Reveal animation ──────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(.22,1,.36,1), transform 0.8s cubic-bezier(.22,1,.36,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 6rem 2rem 4rem;
+  position: relative;
+  z-index: 2;
+  background: url('hero-yacht.jpg') center center / cover no-repeat;
+}
+/* dark overlay for text legibility + navy gradient at bottom for seamless blend */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg,
+      rgba(4,8,16,0.55) 0%,
+      rgba(7,13,26,0.35) 40%,
+      rgba(7,13,26,0.50) 70%,
+      rgba(7,13,26,0.97) 95%,
+      #070d1a 100%
+    );
+  z-index: 0;
+}
+.hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(201,168,76,0.06) 0%, transparent 60%);
+  z-index: 0;
+  pointer-events: none;
+}
+.hero > * { position: relative; z-index: 1; }
+.hero-content { max-width: 780px; }
+.hero-badge {
+  display: inline-block;
+  font-size: .7rem; font-weight: 600;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,.25);
+  padding: .45rem 1.4rem;
+  border-radius: 2px;
+  margin-bottom: 2rem;
+  opacity: 0; transform: translateY(20px);
+  animation: heroFadeIn .8s .3s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 700; line-height: 1.05;
+  color: #fff;
+  margin-bottom: 1rem;
+  opacity: 0; transform: translateY(30px);
+  animation: heroFadeIn 1s .5s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold-light);
+  text-shadow: 0 0 60px rgba(201,168,76,.3), 0 2px 20px rgba(0,0,0,.3);
+}
+.hero h1 {
+  text-shadow: 0 2px 30px rgba(0,0,0,.4);
+}
+.hero-divider {
+  display: flex; align-items: center; justify-content: center;
+  gap: .8rem; margin: 1.5rem auto 1.8rem;
+  opacity: 0;
+  animation: heroFadeIn .8s .75s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero-divider::before, .hero-divider::after {
+  content: '';
+  width: 60px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: .4;
+}
+.hero-divider svg { width: 20px; height: 20px; fill: none; stroke: var(--gold); opacity: .5; }
+.hero p {
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  color: #e0dbd0;
+  max-width: 540px; margin: 0 auto 2.8rem;
+  line-height: 1.75;
+  font-weight: 400;
+  text-shadow: 0 1px 12px rgba(0,0,0,.5);
+  opacity: 0; transform: translateY(20px);
+  animation: heroFadeIn .8s .9s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero-cta-wrap {
+  opacity: 0; transform: translateY(20px);
+  animation: heroFadeIn .8s 1.1s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes heroFadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Gold button ───────────────────────────────── */
+.btn-gold {
+  display: inline-block; position: relative;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: var(--navy);
+  font-family: 'Inter', sans-serif;
+  font-weight: 700; font-size: 1rem;
+  padding: 1rem 3rem; border-radius: 3px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 30px rgba(201,168,76,.3), 0 0 80px rgba(201,168,76,.1), 0 4px 15px rgba(0,0,0,.4);
+  transition: transform .25s, box-shadow .3s;
+  cursor: pointer; border: none;
+  overflow: hidden;
+}
+.btn-gold::before {
+  content: '';
+  position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+  transition: none;
+  animation: btnShimmer 3s ease-in-out infinite;
+}
+@keyframes btnShimmer {
+  0%   { left: -100%; }
+  40%  { left: 100%; }
+  100% { left: 100%; }
+}
+.btn-gold:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 40px rgba(201,168,76,.35), 0 0 100px rgba(201,168,76,.12);
+}
+
+/* ── Scroll hint ───────────────────────────────── */
+.scroll-hint {
+  position: absolute; bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  animation: bob 2.5s ease-in-out infinite;
+  opacity: 0;
+  animation: bob 2.5s ease-in-out infinite, heroFadeIn .8s 1.6s forwards;
+}
+.scroll-hint svg {
+  width: 24px; height: 24px;
+  stroke: #fff; opacity: .6;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 8px rgba(201,168,76,0.3));
+}
+@keyframes bob {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%     { transform: translateX(-50%) translateY(10px); }
+}
+
+/* ═══════════════════════════════════════════════════
+   STATS BAR
+   ═══════════════════════════════════════════════════ */
+.stats {
+  padding: 4rem 0;
+  border-top: 1px solid rgba(201,168,76,.06);
+  border-bottom: 1px solid rgba(201,168,76,.06);
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  text-align: center;
+}
+.stat-item { padding: 1rem 0; }
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: .4rem;
+}
+.stat-label {
+  font-size: .8rem; font-weight: 500;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ═══════════════════════════════════════════════════
+   FEATURES
+   ═══════════════════════════════════════════════════ */
+.features { padding: 6rem 0 7rem; }
+.section-heading {
+  text-align: center; margin-bottom: 4rem;
+}
+.section-heading h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 600; color: #fff;
+  margin-bottom: .6rem;
+}
+.section-heading p {
+  color: var(--text-dim); font-weight: 300;
+  font-size: 1.05rem;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+.card {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 2.8rem 2.2rem;
+  transition: transform .4s cubic-bezier(.22,1,.36,1), border-color .4s, box-shadow .4s;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity .4s;
+}
+.card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(201,168,76,.25);
+  box-shadow: 0 20px 60px rgba(0,0,0,.3), 0 0 40px rgba(201,168,76,.05);
+}
+.card:hover::before { opacity: 1; }
+
+.card-icon {
+  width: 60px; height: 60px;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, rgba(201,168,76,.1), rgba(201,168,76,.03));
+  border: 1px solid rgba(201,168,76,.1);
+  border-radius: 12px; margin-bottom: 1.6rem;
+}
+.card-icon svg {
+  width: 28px; height: 28px;
+  stroke: var(--gold); fill: none;
+  stroke-width: 1.5;
+}
+.card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem; font-weight: 600;
+  color: #fff; margin-bottom: .7rem;
+}
+.card p {
+  color: var(--text-dim); line-height: 1.75;
+  font-size: .92rem; font-weight: 300;
+}
+
+/* ═══════════════════════════════════════════════════
+   TESTIMONIALS
+   ═══════════════════════════════════════════════════ */
+.testimonials { padding: 4rem 0 6rem; }
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+.testimonial {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 2.4rem 2rem;
+  position: relative;
+}
+.testimonial .quote-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem; line-height: 1;
+  color: var(--gold); opacity: .2;
+  position: absolute; top: 1rem; left: 1.5rem;
+}
+.testimonial blockquote {
+  font-size: .95rem; line-height: 1.75;
+  color: var(--text); font-weight: 300;
+  font-style: italic;
+  margin-bottom: 1.4rem;
+  padding-top: 1.2rem;
+}
+.testimonial-author {
+  display: flex; align-items: center; gap: .8rem;
+}
+.author-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy3), var(--gold-dark));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: .9rem; font-weight: 700;
+  color: var(--gold);
+}
+.author-info strong {
+  display: block; font-size: .85rem;
+  color: #fff; font-weight: 500;
+}
+.author-info span {
+  font-size: .75rem; color: var(--text-dim);
+  letter-spacing: .3px;
+}
+
+/* ═══════════════════════════════════════════════════
+   CTA SECTION
+   ═══════════════════════════════════════════════════ */
+.cta-section { padding: 3rem 0 7rem; text-align: center; }
+.cta-box {
+  position: relative;
+  background: linear-gradient(160deg, rgba(16,36,63,.85), rgba(201,168,76,.06));
+  border: 1px solid rgba(201,168,76,.15);
+  border-radius: 16px;
+  padding: 5rem 2.5rem;
+  overflow: hidden;
+}
+.cta-box::before {
+  content: '';
+  position: absolute; top: -50%; left: 50%; transform: translateX(-50%);
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(201,168,76,.08), transparent 70%);
+  pointer-events: none;
+}
+.cta-box h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 600; color: #fff;
+  margin-bottom: .8rem;
+  position: relative;
+}
+.cta-box p {
+  color: var(--text-dim); max-width: 460px;
+  margin: 0 auto 2.5rem; line-height: 1.75;
+  font-weight: 300; position: relative;
+}
+
+/* ═══════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════ */
+footer {
+  border-top: 1px solid rgba(201,168,76,.08);
+  padding: 4rem 0 3rem;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+.footer-brand .logo {
+  margin-bottom: .8rem; display: inline-block;
+}
+.footer-brand p {
+  font-size: .85rem; color: var(--text-dim);
+  line-height: 1.7; font-weight: 300;
+  max-width: 280px;
+}
+.footer-col h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: .9rem; font-weight: 600;
+  color: var(--gold); margin-bottom: 1rem;
+  letter-spacing: .5px;
+}
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: .5rem; }
+.footer-col ul li a {
+  font-size: .82rem; color: var(--text-dim);
+  font-weight: 300; transition: color .3s;
+}
+.footer-col ul li a:hover { color: var(--gold); }
+.footer-bottom {
+  border-top: 1px solid rgba(201,168,76,.06);
+  padding-top: 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: .78rem; color: var(--text-dim);
+}
+.footer-bottom-links { display: flex; gap: 1.5rem; }
+.footer-bottom-links a {
+  font-size: .78rem; color: var(--text-dim);
+  transition: color .3s;
+}
+.footer-bottom-links a:hover { color: var(--gold); }
+
+/* ═══════════════════════════════════════════════════
+   MOBILE NAV
+   ═══════════════════════════════════════════════════ */
+.hamburger {
+  display: none; background: none; border: none; cursor: pointer;
+  flex-direction: column; gap: 5px; padding: 4px;
+}
+.hamburger span {
+  display: block; width: 22px; height: 1.5px;
+  background: var(--text); transition: .3s;
+}
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .hamburger { display: flex; }
+  nav ul {
+    position: fixed; top: 0; right: -100%;
+    width: 280px; height: 100vh;
+    flex-direction: column; padding: 5rem 2.5rem;
+    background: rgba(7,13,26,.97);
+    backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(201,168,76,.1);
+    transition: right .4s cubic-bezier(.22,1,.36,1);
+  }
+  nav ul.open { right: 0; }
+  .nav-cta { display: none; }
+  .stats-grid { grid-template-columns: 1fr; gap: .5rem; }
+  .stat-item {
+    display: flex; align-items: center;
+    justify-content: center; gap: .8rem;
+    padding: .6rem 0;
+  }
+  .stat-number { font-size: 1.8rem; margin-bottom: 0; }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .footer-brand { grid-column: 1 / -1; }
+  .footer-bottom { flex-direction: column; gap: .8rem; text-align: center; }
+  .testimonial-grid { grid-template-columns: 1fr; }
+  .cta-box { padding: 3.5rem 1.5rem; }
+}
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══════════════════════════════════════ -->
+<nav id="mainNav">
+  <div class="logo">Admiral <span>Yacht Insurance</span></div>
+  <ul id="navMenu">
+    <li><a href="#features" class="nav-link">Coverage</a></li>
+    <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+    <li><a href="#quote" class="nav-link">Get a Quote</a></li>
+  </ul>
+  <a href="#quote" class="nav-cta">Get a Quote</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ═══ OCEAN CANVAS ═════════════════════════════ -->
+<canvas id="ocean-canvas"></canvas>
+
+<!-- ═══ HERO ══════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <h1>Sail With<br><em>Confidence</em></h1>
+    <div class="hero-divider">
+      <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+        <path d="M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+      </svg>
+    </div>
+    <p>Admiral protects your vessel with industry-leading yacht insurance, bespoke coverage, and a dedicated marine claims team — so you can focus on the horizon ahead.</p>
+    <div class="hero-cta-wrap">
+      <a href="#quote" class="btn-gold">Request a Quote</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══ STATS ═════════════════════════════════════ -->
+<section class="stats reveal" id="trust">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number" data-target="10000" data-suffix="+">0</div>
+        <div class="stat-label">Vessels Insured</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="2" data-prefix="£" data-suffix="B+">0</div>
+        <div class="stat-label">In Claims Paid</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="25" data-suffix="+">0</div>
+        <div class="stat-label">Years of Expertise</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DIVIDER ═══════════════════════════════════ -->
+<div class="divider" aria-hidden="true">
+  <svg viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2z"/></svg>
+</div>
+
+<!-- ═══ FEATURES ══════════════════════════════════ -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-heading reveal">
+      <h2>Why Choose Admiral?</h2>
+      <p>Premium coverage crafted for every voyage</p>
+    </div>
+    <div class="cards">
+      <div class="card reveal" style="transition-delay:.1s">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <h3>Comprehensive Cover</h3>
+        <p>Hull, machinery, personal effects, and third-party liability — fully protected against damage, theft, and the unexpected, wherever your journey takes you.</p>
+      </div>
+      <div class="card reveal" style="transition-delay:.25s">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <h3>Expert Claims</h3>
+        <p>Our specialist marine claims team resolves issues swiftly and fairly, so you spend less time on paperwork and more time on the water.</p>
+      </div>
+      <div class="card reveal" style="transition-delay:.4s">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M3 9h18M9 3v18"/>
+          </svg>
+        </div>
+        <h3>Flexible Policies</h3>
+        <p>Tailor your policy to your vessel and ambition — from coastal day-sailing to blue-water ocean crossings, with optional add-ons for racing and charter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ══════════════════════════════ -->
+<section class="testimonials" id="testimonials">
+  <div class="container">
+    <div class="section-heading reveal">
+      <h2>Trusted on Every Sea</h2>
+      <p>Hear from vessel owners who sail with Admiral</p>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial reveal" style="transition-delay:.1s">
+        <div class="quote-mark">"</div>
+        <blockquote>Admiral handled our claim after a collision in the Solent with remarkable speed and professionalism. The surveyor was on-site within 24 hours, and the repair was completed ahead of schedule. Genuinely outstanding service.</blockquote>
+        <div class="testimonial-author">
+          <div class="author-avatar">JW</div>
+          <div class="author-info">
+            <strong>James Whitfield</strong>
+            <span>Oyster 575 — Southampton</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial reveal" style="transition-delay:.25s">
+        <div class="quote-mark">"</div>
+        <blockquote>We've insured three vessels with Admiral over twelve years. Their flexibility to adjust cover as our fleet grows, combined with genuinely competitive premiums, makes them the obvious choice for serious owners.</blockquote>
+        <div class="testimonial-author">
+          <div class="author-avatar">SC</div>
+          <div class="author-info">
+            <strong>Sarah Carmichael</strong>
+            <span>Hallberg-Rassy 46 — Falmouth</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DIVIDER ═══════════════════════════════════ -->
+<div class="divider" aria-hidden="true">
+  <svg viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2z"/></svg>
+</div>
+
+<!-- ═══ CTA ═══════════════════════════════════════ -->
+<section class="cta-section reveal" id="quote">
+  <div class="container">
+    <div class="cta-box">
+      <h2>Ready to Set Sail?</h2>
+      <p>Get a personalised quote in minutes. Our specialist advisors are standing by to craft the perfect cover for your vessel.</p>
+      <button class="btn-gold" onclick="alert('Quote request received — an advisor will be in touch shortly. Thank you!')">Request a Quote</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">Admiral <span>Yacht Insurance</span></div>
+        <p>Protecting vessels and their owners since 1998. Admiral Yacht Insurance is authorised and regulated by the Financial Conduct Authority.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Coverage</h4>
+        <ul>
+          <li><a href="#">Yacht Insurance</a></li>
+          <li><a href="#">Motor Boat Insurance</a></li>
+          <li><a href="#">Sailing Dinghy</a></li>
+          <li><a href="#">Charter Cover</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Claims</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#">0800 123 4567</a></li>
+          <li><a href="#">info@admiralyacht.co.uk</a></li>
+          <li><a href="#">Southampton, UK</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Admiral Yacht Insurance Ltd. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+        <a href="https://www.pexels.com/photo/sailboat-sailing-on-water-near-island-1482193/" target="_blank" rel="noopener">Photo: Pexels</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   MOBILE NAV
+   ═══════════════════════════════════════════════════ */
+const hamburger = document.getElementById('hamburger');
+const navMenu   = document.getElementById('navMenu');
+hamburger.addEventListener('click', () => navMenu.classList.toggle('open'));
+document.querySelectorAll('.nav-link').forEach(l =>
+  l.addEventListener('click', () => navMenu.classList.remove('open'))
+);
+
+/* ═══════════════════════════════════════════════════
+   NAV SCROLL STATE
+   ═══════════════════════════════════════════════════ */
+const mainNav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  mainNav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+/* ═══════════════════════════════════════════════════
+   SCROLL REVEAL (IntersectionObserver)
+   ═══════════════════════════════════════════════════ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ═══════════════════════════════════════════════════
+   ANIMATED STAT COUNTERS
+   ═══════════════════════════════════════════════════ */
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = +el.dataset.target;
+    const prefix = el.dataset.prefix || '';
+    const suffix = el.dataset.suffix || '';
+    const duration = 2000;
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      const val = Math.round(target * ease);
+      el.textContent = prefix + val.toLocaleString() + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+    statObserver.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-number').forEach(el => statObserver.observe(el));
+
+/* ═══════════════════════════════════════════════════
+   OCEAN CANVAS — Premium Atmosphere
+   ═══════════════════════════════════════════════════ */
+(function () {
+  const canvas = document.getElementById('ocean-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, horizonY;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    horizonY = H * 0.50;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  /* ── Stars with constellations ───────────────── */
+  const stars = Array.from({ length: 160 }, () => ({
+    x: Math.random(),
+    y: Math.random() * 0.48,
+    r: Math.random() * 1.6 + 0.3,
+    twinkle: Math.random() * Math.PI * 2,
+    speed: Math.random() * 0.5 + 0.2
+  }));
+
+  /* Pre-compute constellation connections */
+  const constellations = [];
+  for (let i = 0; i < 12; i++) {
+    const a = Math.floor(Math.random() * stars.length);
+    let b = a;
+    let minDist = Infinity;
+    stars.forEach((s, j) => {
+      if (j === a) return;
+      const dx = stars[a].x - s.x;
+      const dy = stars[a].y - s.y;
+      const d = dx * dx + dy * dy;
+      if (d < minDist && d > 0.0004 && d < 0.008) {
+        minDist = d; b = j;
+      }
+    });
+    if (b !== a) constellations.push([a, b]);
+  }
+
+  function drawStars(t) {
+    /* constellation lines */
+    ctx.strokeStyle = 'rgba(201,168,76,0.06)';
+    ctx.lineWidth = 0.5;
+    constellations.forEach(([a, b]) => {
+      ctx.beginPath();
+      ctx.moveTo(stars[a].x * W, stars[a].y * H);
+      ctx.lineTo(stars[b].x * W, stars[b].y * H);
+      ctx.stroke();
+    });
+    /* star points */
+    stars.forEach(s => {
+      const alpha = 0.25 + 0.4 * Math.sin(s.twinkle + t * s.speed);
+      ctx.beginPath();
+      ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(220,215,195,${alpha})`;
+      ctx.fill();
+      /* glow on brighter stars */
+      if (s.r > 1.2) {
+        ctx.beginPath();
+        ctx.arc(s.x * W, s.y * H, s.r * 3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(201,168,76,${alpha * 0.1})`;
+        ctx.fill();
+      }
+    });
+  }
+
+  /* ── Moon ─────────────────────────────────────── */
+  function drawMoon() {
+    const mx = W * 0.15, my = H * 0.13, mr = 28;
+    /* outer glow */
+    const g3 = ctx.createRadialGradient(mx, my, mr, mx, my, mr * 6);
+    g3.addColorStop(0, 'rgba(201,180,120,0.06)');
+    g3.addColorStop(1, 'rgba(201,180,120,0)');
+    ctx.fillStyle = g3;
+    ctx.fillRect(mx - mr * 6, my - mr * 6, mr * 12, mr * 12);
+    /* inner glow */
+    const g2 = ctx.createRadialGradient(mx, my, mr * 0.2, mx, my, mr * 2.5);
+    g2.addColorStop(0, 'rgba(230,220,180,0.12)');
+    g2.addColorStop(1, 'rgba(230,220,180,0)');
+    ctx.fillStyle = g2;
+    ctx.beginPath();
+    ctx.arc(mx, my, mr * 2.5, 0, Math.PI * 2);
+    ctx.fill();
+    /* moon disc */
+    const g1 = ctx.createRadialGradient(mx - 6, my - 6, 2, mx, my, mr);
+    g1.addColorStop(0, 'rgba(240,235,210,0.95)');
+    g1.addColorStop(0.7, 'rgba(220,210,180,0.8)');
+    g1.addColorStop(1, 'rgba(200,190,160,0.6)');
+    ctx.beginPath();
+    ctx.arc(mx, my, mr, 0, Math.PI * 2);
+    ctx.fillStyle = g1;
+    ctx.fill();
+  }
+
+  /* ── Lighthouse ──────────────────────────────── */
+  function drawLighthouse(t) {
+    const lx = W * 0.88, ly = horizonY - 2;
+    /* base rock */
+    ctx.beginPath();
+    ctx.ellipse(lx, ly + 4, 22, 6, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#0e1e38';
+    ctx.fill();
+    /* tower — tapered */
+    ctx.beginPath();
+    ctx.moveTo(lx - 8, ly);
+    ctx.lineTo(lx - 5, ly - 65);
+    ctx.lineTo(lx + 5, ly - 65);
+    ctx.lineTo(lx + 8, ly);
+    ctx.closePath();
+    ctx.fillStyle = '#152a4d';
+    ctx.fill();
+    /* stripes */
+    for (let i = 0; i < 4; i++) {
+      const sy = ly - 12 - i * 14;
+      const w1 = 8 - (i * 0.5);
+      ctx.fillStyle = 'rgba(201,168,76,0.12)';
+      ctx.fillRect(lx - w1 / 2, sy, w1, 5);
+    }
+    /* lamp housing */
+    ctx.beginPath();
+    ctx.moveTo(lx - 7, ly - 65);
+    ctx.lineTo(lx - 8, ly - 72);
+    ctx.lineTo(lx + 8, ly - 72);
+    ctx.lineTo(lx + 7, ly - 65);
+    ctx.closePath();
+    ctx.fillStyle = '#1a3055';
+    ctx.fill();
+    /* lamp glow */
+    ctx.beginPath();
+    ctx.arc(lx, ly - 68, 4, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(230,210,140,0.95)';
+    ctx.fill();
+    const lg = ctx.createRadialGradient(lx, ly - 68, 3, lx, ly - 68, 25);
+    lg.addColorStop(0, 'rgba(230,210,140,0.25)');
+    lg.addColorStop(1, 'rgba(230,210,140,0)');
+    ctx.fillStyle = lg;
+    ctx.beginPath();
+    ctx.arc(lx, ly - 68, 25, 0, Math.PI * 2);
+    ctx.fill();
+    /* sweeping beam */
+    const angle = t * 0.3;
+    const beamLen = W * 0.38;
+    const spread = 0.06;
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    /* primary beam */
+    const bg = ctx.createRadialGradient(lx, ly - 68, 3, lx, ly - 68, beamLen);
+    bg.addColorStop(0, 'rgba(230,210,140,0.12)');
+    bg.addColorStop(0.5, 'rgba(201,168,76,0.04)');
+    bg.addColorStop(1, 'rgba(201,168,76,0)');
+    ctx.beginPath();
+    ctx.moveTo(lx, ly - 68);
+    ctx.lineTo(lx + Math.cos(angle - spread) * beamLen, ly - 68 + Math.sin(angle - spread) * beamLen);
+    ctx.lineTo(lx + Math.cos(angle + spread) * beamLen, ly - 68 + Math.sin(angle + spread) * beamLen);
+    ctx.closePath();
+    ctx.fillStyle = bg;
+    ctx.fill();
+    /* secondary beam (opposite) */
+    const bg2 = ctx.createRadialGradient(lx, ly - 68, 3, lx, ly - 68, beamLen * 0.6);
+    bg2.addColorStop(0, 'rgba(230,210,140,0.06)');
+    bg2.addColorStop(1, 'rgba(201,168,76,0)');
+    ctx.beginPath();
+    ctx.moveTo(lx, ly - 68);
+    ctx.lineTo(lx + Math.cos(angle + Math.PI - spread) * beamLen * 0.6, ly - 68 + Math.sin(angle + Math.PI - spread) * beamLen * 0.6);
+    ctx.lineTo(lx + Math.cos(angle + Math.PI + spread) * beamLen * 0.6, ly - 68 + Math.sin(angle + Math.PI + spread) * beamLen * 0.6);
+    ctx.closePath();
+    ctx.fillStyle = bg2;
+    ctx.fill();
+    ctx.restore();
+  }
+
+  /* ── Fog / mist near horizon ─────────────────── */
+  function drawFog() {
+    const fg = ctx.createLinearGradient(0, horizonY - 30, 0, horizonY + 40);
+    fg.addColorStop(0, 'rgba(10,18,35,0)');
+    fg.addColorStop(0.4, 'rgba(14,26,50,0.3)');
+    fg.addColorStop(0.7, 'rgba(14,26,50,0.15)');
+    fg.addColorStop(1, 'rgba(10,18,35,0)');
+    ctx.fillStyle = fg;
+    ctx.fillRect(0, horizonY - 30, W, 70);
+  }
+
+  /* ── Waves (6 layers with gradient fills) ────── */
+  function drawWaves(t) {
+    const layers = [
+      { y: horizonY - 5,   amp: 4,  freq: 0.004,  speed: 0.3,  c1: 'rgba(14,30,60,0.7)',  c2: 'rgba(10,22,45,0.9)' },
+      { y: horizonY + 15,  amp: 6,  freq: 0.0035, speed: 0.45, c1: 'rgba(12,28,58,0.8)',  c2: 'rgba(8,20,42,0.95)' },
+      { y: horizonY + 40,  amp: 8,  freq: 0.003,  speed: 0.35, c1: 'rgba(10,26,52,0.85)', c2: 'rgba(7,18,38,0.95)' },
+      { y: horizonY + 70,  amp: 10, freq: 0.0025, speed: 0.5,  c1: 'rgba(9,22,46,0.9)',   c2: 'rgba(6,16,34,0.97)' },
+      { y: horizonY + 105, amp: 12, freq: 0.002,  speed: 0.4,  c1: 'rgba(8,20,42,0.92)',  c2: 'rgba(5,14,30,0.98)' },
+      { y: horizonY + 145, amp: 14, freq: 0.0018, speed: 0.55, c1: 'rgba(7,16,35,0.95)',  c2: 'rgba(5,12,26,1)' },
+    ];
+
+    layers.forEach((l, idx) => {
+      ctx.beginPath();
+      ctx.moveTo(0, H);
+      const points = [];
+      for (let x = 0; x <= W; x += 2) {
+        const y = l.y
+          + Math.sin(x * l.freq + t * l.speed) * l.amp
+          + Math.sin(x * l.freq * 2.1 + t * l.speed * 0.6) * l.amp * 0.35
+          + Math.sin(x * l.freq * 0.5 + t * l.speed * 0.2) * l.amp * 0.5;
+        ctx.lineTo(x, y);
+        points.push({ x, y });
+      }
+      ctx.lineTo(W, H);
+      ctx.closePath();
+      /* gradient fill */
+      const grd = ctx.createLinearGradient(0, l.y - l.amp, 0, l.y + l.amp + 60);
+      grd.addColorStop(0, l.c1);
+      grd.addColorStop(1, l.c2);
+      ctx.fillStyle = grd;
+      ctx.fill();
+
+      /* foam highlights on front waves */
+      if (idx >= 2 && idx <= 4) {
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(180,200,220,${0.025 + idx * 0.005})`;
+        ctx.lineWidth = 0.8;
+        for (let i = 0; i < points.length; i += 2) {
+          if (i === 0) ctx.moveTo(points[i].x, points[i].y);
+          else ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.stroke();
+      }
+    });
+  }
+
+  /* ── Detailed Ships ──────────────────────────── */
+  const ships = [
+    { x: W * 0.15, baseY: horizonY + 8,  size: 0.6,  speed: 6,  waveOff: 0,   type: 'sloop' },
+    { x: W * 0.48, baseY: horizonY - 3,  size: 1,    speed: 4,  waveOff: 2,   type: 'ketch' },
+    { x: W * 0.75, baseY: horizonY + 18, size: 0.5,  speed: 7,  waveOff: 4.5, type: 'sloop' },
+  ];
+
+  function drawSloop(ctx, s) {
+    /* hull — elegant curved shape */
+    ctx.beginPath();
+    ctx.moveTo(-44, 0);
+    ctx.quadraticCurveTo(-40, 16, -26, 18);
+    ctx.lineTo(28, 18);
+    ctx.quadraticCurveTo(42, 16, 48, 2);
+    ctx.lineTo(46, 0);
+    ctx.closePath();
+    ctx.fillStyle = '#14304e';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(201,168,76,0.25)';
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+    /* hull stripe */
+    ctx.beginPath();
+    ctx.moveTo(-40, 8);
+    ctx.quadraticCurveTo(0, 10, 44, 6);
+    ctx.strokeStyle = 'rgba(201,168,76,0.12)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    /* cabin */
+    ctx.beginPath();
+    ctx.moveTo(-8, 0);
+    ctx.lineTo(-6, -8);
+    ctx.lineTo(16, -8);
+    ctx.lineTo(18, 0);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(20,48,78,0.9)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(201,168,76,0.15)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+    /* mast */
+    ctx.beginPath();
+    ctx.moveTo(2, -8);
+    ctx.lineTo(0, -72);
+    ctx.strokeStyle = 'rgba(180,170,150,0.35)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    /* mainsail */
+    ctx.beginPath();
+    ctx.moveTo(1, -70);
+    ctx.quadraticCurveTo(28, -40, 24, -10);
+    ctx.lineTo(3, -10);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(220,215,200,0.07)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(201,168,76,0.12)';
+    ctx.lineWidth = 0.6;
+    ctx.stroke();
+    /* headsail (jib) */
+    ctx.beginPath();
+    ctx.moveTo(0, -68);
+    ctx.quadraticCurveTo(-18, -36, -12, -8);
+    ctx.lineTo(1, -8);
+    ctx.lineTo(0, -68);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(220,215,200,0.05)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(201,168,76,0.08)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+    /* rigging lines */
+    ctx.strokeStyle = 'rgba(180,170,150,0.1)';
+    ctx.lineWidth = 0.4;
+    ctx.beginPath();
+    ctx.moveTo(0, -70); ctx.lineTo(-38, 0);
+    ctx.moveTo(0, -70); ctx.lineTo(40, 0);
+    ctx.moveTo(0, -50); ctx.lineTo(40, -2);
+    ctx.stroke();
+    /* mast top light */
+    ctx.beginPath();
+    ctx.arc(0, -72, 1.5, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(201,168,76,0.6)';
+    ctx.fill();
+  }
+
+  function drawKetch(ctx, s) {
+    /* hull — larger, more elegant */
+    ctx.beginPath();
+    ctx.moveTo(-52, 0);
+    ctx.quadraticCurveTo(-48, 20, -32, 22);
+    ctx.lineTo(34, 22);
+    ctx.quadraticCurveTo(52, 18, 58, 2);
+    ctx.lineTo(54, 0);
+    ctx.closePath();
+    ctx.fillStyle = '#14304e';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(201,168,76,0.3)';
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+    /* waterline stripe */
+    ctx.beginPath();
+    ctx.moveTo(-46, 10);
+    ctx.quadraticCurveTo(0, 14, 52, 8);
+    ctx.strokeStyle = 'rgba(201,168,76,0.15)';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+    /* cabin */
+    ctx.beginPath();
+    ctx.moveTo(-14, 0);
+    ctx.lineTo(-12, -12);
+    ctx.lineTo(22, -12);
+    ctx.lineTo(24, 0);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(20,48,78,0.9)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(201,168,76,0.12)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+    /* cabin windows */
+    for (let w = -6; w <= 16; w += 8) {
+      ctx.fillStyle = 'rgba(201,168,76,0.15)';
+      ctx.fillRect(w, -9, 4, 3);
+    }
+    /* main mast */
+    ctx.beginPath();
+    ctx.moveTo(-2, -12);
+    ctx.lineTo(-4, -88);
+    ctx.strokeStyle = 'rgba(180,170,150,0.4)';
+    ctx.lineWidth = 1.8;
+    ctx.stroke();
+    /* mizzen mast */
+    ctx.beginPath();
+    ctx.moveTo(28, -2);
+    ctx.lineTo(27, -55);
+    ctx.strokeStyle = 'rgba(180,170,150,0.35)';
+    ctx.lineWidth = 1.3;
+    ctx.stroke();
+    /* mainsail */
+    ctx.beginPath();
+    ctx.moveTo(-3, -85);
+    ctx.quadraticCurveTo(32, -50, 28, -14);
+    ctx.lineTo(-1, -14);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(220,215,200,0.07)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(201,168,76,0.1)';
+    ctx.lineWidth = 0.6;
+    ctx.stroke();
+    /* mizzen sail */
+    ctx.beginPath();
+    ctx.moveTo(27, -52);
+    ctx.quadraticCurveTo(44, -30, 42, -4);
+    ctx.lineTo(28, -4);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(220,215,200,0.05)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(201,168,76,0.08)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+    /* headsail */
+    ctx.beginPath();
+    ctx.moveTo(-4, -82);
+    ctx.quadraticCurveTo(-28, -45, -20, -12);
+    ctx.lineTo(-3, -12);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(220,215,200,0.05)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(201,168,76,0.07)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+    /* rigging */
+    ctx.strokeStyle = 'rgba(180,170,150,0.1)';
+    ctx.lineWidth = 0.4;
+    ctx.beginPath();
+    ctx.moveTo(-4, -86); ctx.lineTo(-46, 0);
+    ctx.moveTo(-4, -86); ctx.lineTo(48, 0);
+    ctx.moveTo(27, -53); ctx.lineTo(52, 0);
+    ctx.moveTo(-4, -60); ctx.lineTo(48, -2);
+    ctx.stroke();
+    /* mast top lights */
+    ctx.beginPath();
+    ctx.arc(-4, -88, 2, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(201,168,76,0.7)';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(27, -55, 1.5, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(201,168,76,0.5)';
+    ctx.fill();
+  }
+
+  function drawWaterReflection(x, y, size, t) {
+    ctx.save();
+    ctx.globalAlpha = 0.04;
+    for (let i = 0; i < 5; i++) {
+      const ry = y + 20 + i * 8 * size;
+      const rw = (30 - i * 4) * size;
+      const shimmer = Math.sin(t * 0.8 + i + x * 0.01) * 3;
+      ctx.beginPath();
+      ctx.moveTo(x - rw + shimmer, ry);
+      ctx.lineTo(x + rw + shimmer, ry);
+      ctx.strokeStyle = 'rgba(201,168,76,1)';
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function drawShipFull(sx, sy, s, t, type) {
+    ctx.save();
+    ctx.translate(sx, sy);
+    ctx.scale(s, s);
+    const rock = Math.sin(t * 0.4 + sx * 0.001) * 0.02;
+    ctx.rotate(rock);
+    if (type === 'ketch') drawKetch(ctx, s);
+    else drawSloop(ctx, s);
+    ctx.restore();
+    drawWaterReflection(sx, sy, s, t);
+  }
+
+  function drawShips(t) {
+    ships.forEach(ship => {
+      ship.x += ship.speed * 0.01;
+      if (ship.x > W + 80) ship.x = -80;
+      const bob = Math.sin(ship.x * 0.003 + t * 0.4 + ship.waveOff) * 4;
+      drawShipFull(ship.x, ship.baseY + bob, ship.size, t + ship.waveOff, ship.type);
+    });
+  }
+
+  /* ── Water shimmer / reflections ─────────────── */
+  function drawWaterShimmer(t) {
+    ctx.save();
+    ctx.globalAlpha = 0.015;
+    ctx.strokeStyle = 'rgba(201,168,76,1)';
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i < 30; i++) {
+      const x = ((i * 97 + t * 12) % W);
+      const y = horizonY + 20 + (i * 31 % 180);
+      const len = 8 + (i % 5) * 3;
+      const shimmer = Math.sin(t * 0.3 + i * 1.7) * 2;
+      ctx.beginPath();
+      ctx.moveTo(x + shimmer, y);
+      ctx.lineTo(x + len + shimmer, y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  /* ── Moon reflection on water ────────────────── */
+  function drawMoonReflection(t) {
+    const mx = W * 0.15;
+    ctx.save();
+    ctx.globalAlpha = 0.025;
+    for (let i = 0; i < 20; i++) {
+      const y = horizonY + 5 + i * 10;
+      const spread = 4 + i * 1.5;
+      const shimmer = Math.sin(t * 0.5 + i * 0.8) * spread;
+      const len = 12 - i * 0.4;
+      if (len <= 0) break;
+      ctx.beginPath();
+      ctx.moveTo(mx + shimmer - len, y);
+      ctx.lineTo(mx + shimmer + len, y);
+      ctx.strokeStyle = 'rgba(230,220,180,1)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  /* ── Render loop ─────────────────────────────── */
+  function frame(ts) {
+    const t = ts * 0.001;
+    ctx.clearRect(0, 0, W, H);
+
+    /* sky gradient — richer */
+    const sky = ctx.createLinearGradient(0, 0, 0, horizonY + 40);
+    sky.addColorStop(0, '#040810');
+    sky.addColorStop(0.3, '#06101e');
+    sky.addColorStop(0.7, '#0c1e38');
+    sky.addColorStop(1, '#10284a');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, W, horizonY + 40);
+
+    /* horizon glow */
+    const hg = ctx.createLinearGradient(0, horizonY - 40, 0, horizonY + 20);
+    hg.addColorStop(0, 'rgba(201,168,76,0)');
+    hg.addColorStop(0.5, 'rgba(201,168,76,0.02)');
+    hg.addColorStop(1, 'rgba(201,168,76,0)');
+    ctx.fillStyle = hg;
+    ctx.fillRect(0, horizonY - 40, W, 60);
+
+    drawMoon();
+    drawStars(t);
+    drawLighthouse(t);
+    drawFog();
+    drawShips(t);
+    drawWaves(t);
+    drawWaterShimmer(t);
+    drawMoonReflection(t);
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
