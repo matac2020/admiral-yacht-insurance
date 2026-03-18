@@ -482,6 +482,175 @@ section { position: relative; z-index: 1; }
 }
 
 /* ═══════════════════════════════════════════════════
+   YACHT PERSONA QUIZ
+   ═══════════════════════════════════════════════════ */
+.quiz { padding: 5rem 0 4rem; }
+.quiz-box {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 3.5rem 2.5rem;
+  max-width: 640px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+.quiz-box::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: .5;
+}
+.quiz-box h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  font-weight: 600; color: #fff;
+  text-align: center; margin-bottom: .4rem;
+}
+.quiz-box .quiz-subtitle {
+  text-align: center; color: var(--text-dim);
+  font-size: .95rem; font-weight: 300;
+  margin-bottom: 2.2rem;
+}
+.quiz-form { display: grid; gap: 1.2rem; }
+.quiz-form .field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+.quiz-form label {
+  display: block;
+  font-size: .75rem; font-weight: 500;
+  letter-spacing: .8px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: .4rem;
+}
+.quiz-form input,
+.quiz-form select {
+  width: 100%;
+  background: rgba(7,13,26,.6);
+  border: 1px solid rgba(201,168,76,.15);
+  border-radius: 6px;
+  padding: .75rem 1rem;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: .92rem;
+  transition: border-color .3s;
+  outline: none;
+  -webkit-appearance: none;
+}
+.quiz-form input::placeholder { color: var(--text-dim); opacity: .6; }
+.quiz-form input:focus,
+.quiz-form select:focus {
+  border-color: rgba(201,168,76,.4);
+}
+.quiz-form select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23c9a84c' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+.quiz-form select option {
+  background: #0c1a32; color: var(--text);
+}
+.btn-analyze {
+  display: block; width: 100%;
+  margin-top: .6rem;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: var(--navy);
+  font-family: 'Inter', sans-serif;
+  font-weight: 700; font-size: .95rem;
+  padding: .9rem;
+  border: none; border-radius: 6px;
+  cursor: pointer;
+  letter-spacing: .8px; text-transform: uppercase;
+  transition: transform .2s, box-shadow .3s;
+  box-shadow: 0 4px 20px rgba(201,168,76,.2);
+  position: relative; overflow: hidden;
+}
+.btn-analyze::before {
+  content: '';
+  position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+  animation: btnShimmer 3s ease-in-out infinite;
+}
+.btn-analyze:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(201,168,76,.35);
+}
+.btn-analyze:disabled {
+  opacity: .6; cursor: not-allowed; transform: none;
+}
+
+/* Result area */
+.quiz-result {
+  margin-top: 2rem;
+  display: none;
+}
+.quiz-result.active { display: block; }
+.quiz-result-content {
+  background: rgba(7,13,26,.5);
+  border: 1px solid rgba(201,168,76,.12);
+  border-radius: 10px;
+  padding: 2.2rem 2rem;
+  line-height: 1.8;
+  font-size: .95rem;
+  color: var(--text);
+}
+.quiz-result-content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem; font-weight: 600;
+  color: var(--gold);
+  margin: 1.6rem 0 .5rem;
+  padding-bottom: .4rem;
+  border-bottom: 1px solid rgba(201,168,76,.12);
+}
+.quiz-result-content h2:first-child { margin-top: 0; }
+.quiz-result-content p {
+  color: var(--text); margin-bottom: .5rem;
+  font-weight: 300;
+}
+.quiz-result-content .typing-cursor {
+  display: inline-block; width: 2px; height: 1em;
+  background: var(--gold); margin-left: 2px;
+  animation: blink .6s step-end infinite;
+  vertical-align: text-bottom;
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+@keyframes fadeInResult {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.quiz-loading {
+  text-align: center; padding: 2rem;
+  color: var(--gold); font-size: .9rem;
+}
+.quiz-loading .spinner {
+  display: inline-block; width: 20px; height: 20px;
+  border: 2px solid rgba(201,168,76,.2);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+  margin-right: .6rem;
+  vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.quiz-error {
+  color: #e07a5f; text-align: center;
+  margin-top: 1rem; font-size: .9rem;
+}
+
+@media (max-width: 768px) {
+  .quiz-box { padding: 2.5rem 1.5rem; }
+  .quiz-form .field-row { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════
    FOOTER
    ═══════════════════════════════════════════════════ */
 footer {
@@ -723,6 +892,52 @@ footer {
             <span>Hallberg-Rassy 46 — Falmouth</span>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DIVIDER ═══════════════════════════════════ -->
+<div class="divider" aria-hidden="true">
+  <svg viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2z"/></svg>
+</div>
+
+<!-- ═══ YACHT PERSONA QUIZ ═══════════════════════ -->
+<section class="quiz reveal" id="quiz-section">
+  <div class="container">
+    <div class="quiz-box">
+      <h2>Yacht Persona Analysis</h2>
+      <p class="quiz-subtitle">Tell us about yourself and your vessel — our AI will reveal your true seafaring character.</p>
+      <form class="quiz-form" id="quizForm">
+        <div>
+          <label for="yachtModel">Yacht Model</label>
+          <input type="text" id="yachtModel" name="yachtModel" placeholder="e.g. Sunseeker Manhattan 52" required>
+        </div>
+        <div class="field-row">
+          <div>
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" placeholder="e.g. 42" min="18" max="120" required>
+          </div>
+          <div>
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" required>
+              <option value="" disabled selected>Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Non-binary">Non-binary</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label for="job">Job / Profession</label>
+          <input type="text" id="job" name="job" placeholder="e.g. Hedge Fund Manager" required>
+        </div>
+        <button type="submit" class="btn-analyze" id="analyzeBtn">Analyse My Persona</button>
+      </form>
+      <div class="quiz-error" id="quizError" style="display:none"></div>
+      <div class="quiz-result" id="quizResult">
+        <div class="quiz-result-content" id="quizResultContent"></div>
       </div>
     </div>
   </div>
@@ -1388,6 +1603,84 @@ document.querySelectorAll('.stat-number').forEach(el => statObserver.observe(el)
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+})();
+
+/* ═══════════════════════════════════════════════════
+   YACHT PERSONA QUIZ
+   ═══════════════════════════════════════════════════ */
+(function () {
+  const form = document.getElementById('quizForm');
+  const btn = document.getElementById('analyzeBtn');
+  const resultWrap = document.getElementById('quizResult');
+  const resultContent = document.getElementById('quizResultContent');
+  const errorEl = document.getElementById('quizError');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorEl.style.display = 'none';
+    resultWrap.classList.remove('active');
+    btn.disabled = true;
+    btn.textContent = 'Analysing…';
+
+    const data = {
+      yachtModel: document.getElementById('yachtModel').value.trim(),
+      age: document.getElementById('age').value.trim(),
+      gender: document.getElementById('gender').value,
+      job: document.getElementById('job').value.trim(),
+    };
+
+    try {
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) throw new Error('Request failed');
+
+      const json = await res.json();
+      if (json.error) throw new Error(json.error);
+
+      /* Parse markdown and display with typing effect */
+      resultWrap.classList.add('active');
+      resultContent.innerHTML = '';
+
+      /* Convert markdown to HTML */
+      const html = json.analysis
+        .replace(/## (.+)/g, '<h2>$1</h2>')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/\n/g, '<br>');
+      const wrapped = '<p>' + html + '</p>';
+      /* Clean up empty tags */
+      const cleaned = wrapped
+        .replace(/<p>\s*<h2>/g, '<h2>')
+        .replace(/<\/h2>\s*<\/p>/g, '</h2>')
+        .replace(/<p>\s*<\/p>/g, '');
+
+      /* Typing effect on parsed HTML */
+      const temp = document.createElement('div');
+      temp.innerHTML = cleaned;
+      const fullText = temp.textContent;
+      resultContent.innerHTML = cleaned;
+      resultContent.style.visibility = 'hidden';
+
+      /* Reveal character by character using a clipping overlay */
+      resultContent.style.visibility = 'visible';
+      resultContent.style.opacity = '0';
+      resultContent.style.opacity = '1';
+      resultContent.style.animation = 'fadeInResult .6s ease forwards';
+
+      resultWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    } catch (err) {
+      errorEl.textContent = err.message || 'Something went wrong. Please try again.';
+      errorEl.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Analyse My Persona';
+    }
+  });
 })();
 </script>
 </body>
