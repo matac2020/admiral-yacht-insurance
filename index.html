@@ -1024,6 +1024,16 @@ document.querySelectorAll('.nav-link').forEach(l =>
 );
 
 /* ═══════════════════════════════════════════════════
+   FORCE SCROLL TO TOP ON LOAD
+   ═══════════════════════════════════════════════════ */
+if (window.location.hash) {
+  history.replaceState(null, '', ' ');
+}
+window.addEventListener('load', () => {
+  window.scrollTo(0, 0);
+});
+
+/* ═══════════════════════════════════════════════════
    NAV SCROLL STATE
    ═══════════════════════════════════════════════════ */
 const mainNav = document.getElementById('mainNav');
@@ -1636,7 +1646,10 @@ document.querySelectorAll('.stat-number').forEach(el => statObserver.observe(el)
         body: JSON.stringify(data),
       });
 
-      if (!res.ok) throw new Error('Request failed');
+      if (!res.ok) {
+        const errData = await res.json().catch(() => null);
+        throw new Error(errData?.error || 'Unable to reach the analysis server. Make sure you are accessing this page via http://localhost:3000');
+      }
 
       const json = await res.json();
       if (json.error) throw new Error(json.error);
