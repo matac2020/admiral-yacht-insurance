@@ -539,6 +539,15 @@ footer {
   display: block; width: 22px; height: 1.5px;
   background: var(--text); transition: .3s;
 }
+.hamburger.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
 
 @media (max-width: 768px) {
   .hero { background-position: 70% center; }
@@ -788,9 +797,15 @@ footer {
    ═══════════════════════════════════════════════════ */
 const hamburger = document.getElementById('hamburger');
 const navMenu   = document.getElementById('navMenu');
-hamburger.addEventListener('click', () => navMenu.classList.toggle('open'));
+hamburger.addEventListener('click', () => {
+  navMenu.classList.toggle('open');
+  hamburger.classList.toggle('active');
+});
 document.querySelectorAll('.nav-link').forEach(l =>
-  l.addEventListener('click', () => navMenu.classList.remove('open'))
+  l.addEventListener('click', () => {
+    navMenu.classList.remove('open');
+    hamburger.classList.remove('active');
+  })
 );
 
 /* ═══════════════════════════════════════════════════
